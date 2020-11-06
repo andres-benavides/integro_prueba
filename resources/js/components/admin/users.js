@@ -79,7 +79,14 @@ class UsersAdmin extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const { idUser, name, nickname, password } = this.state;
-
+        let expreg = /^(?=.*[0-9])(?=.*[A-Z])([a-zA-Z0-9]+)$/;
+        if (!expreg.test(password)) {
+            this.setState({
+                msgSaveUser:
+                    "La contraseña debe tener al menos un numero y una mayúscula"
+            });
+            return false;
+        }
         if (idUser <= 0) {
             const data = {
                 name: name,

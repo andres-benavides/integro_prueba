@@ -12,7 +12,8 @@ class MoviesAdmin extends Component {
             sinopsis: "",
             anio: "",
             msgSaveMovie: "",
-            nameMovie: ""
+            nameMovie: "",
+            alertType: ""
         };
         const year = new Date().getFullYear();
         this.years = Array.from(new Array(133), (val, index) => year - index);
@@ -93,11 +94,13 @@ class MoviesAdmin extends Component {
                         msgSaveMovie: data.success,
                         titulo: "",
                         sinopsis: "",
-                        anio: ""
+                        anio: "",
+                        alertType: "success"
                     });
                 } else if (typeof data.error !== "undefined") {
                     this.setState({
-                        msgSaveMovie: data.error
+                        msgSaveMovie: data.error,
+                        alertType: "error"
                     });
                 }
             });
@@ -114,11 +117,13 @@ class MoviesAdmin extends Component {
                 .then(data => {
                     if (typeof data.success !== "undefined") {
                         this.setState({
-                            msgSaveMovie: data.success
+                            msgSaveMovie: data.success,
+                            alertType: "success"
                         });
                     } else if (typeof data.error !== "undefined") {
                         this.setState({
-                            msgSaveMovie: data.error
+                            msgSaveMovie: data.error,
+                            alertType: "danger"
                         });
                     }
                 });
@@ -154,11 +159,28 @@ class MoviesAdmin extends Component {
     }
 
     render() {
-        const { titulo, sinopsis, anio } = this.state;
+        const { titulo, sinopsis, anio, alertType } = this.state;
         const { showFormMovie } = this.state;
         const formMovie = showFormMovie ? (
             <div className="newMovie">
-                <h2>{this.state.msgSaveMovie}</h2>
+                <div
+                    className={
+                        "alert alert-" +
+                        alertType +
+                        " alert-dismissible fade show"
+                    }
+                    role="alert"
+                >
+                    {this.state.msgSaveMovie}
+                    <button
+                        type="button"
+                        className="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="titulo">Titulo</label>

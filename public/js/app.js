@@ -65924,7 +65924,8 @@ var MoviesAdmin = /*#__PURE__*/function (_Component) {
       sinopsis: "",
       anio: "",
       msgSaveMovie: "",
-      nameMovie: ""
+      nameMovie: "",
+      alertType: ""
     };
     var year = new Date().getFullYear();
     _this.years = Array.from(new Array(133), function (val, index) {
@@ -66031,11 +66032,13 @@ var MoviesAdmin = /*#__PURE__*/function (_Component) {
               msgSaveMovie: data.success,
               titulo: "",
               sinopsis: "",
-              anio: ""
+              anio: "",
+              alertType: "success"
             });
           } else if (typeof data.error !== "undefined") {
             _this3.setState({
-              msgSaveMovie: data.error
+              msgSaveMovie: data.error,
+              alertType: "error"
             });
           }
         });
@@ -66052,11 +66055,13 @@ var MoviesAdmin = /*#__PURE__*/function (_Component) {
         }).then(function (data) {
           if (typeof data.success !== "undefined") {
             _this3.setState({
-              msgSaveMovie: data.success
+              msgSaveMovie: data.success,
+              alertType: "success"
             });
           } else if (typeof data.error !== "undefined") {
             _this3.setState({
-              msgSaveMovie: data.error
+              msgSaveMovie: data.error,
+              alertType: "danger"
             });
           }
         });
@@ -66104,11 +66109,22 @@ var MoviesAdmin = /*#__PURE__*/function (_Component) {
       var _this$state2 = this.state,
           titulo = _this$state2.titulo,
           sinopsis = _this$state2.sinopsis,
-          anio = _this$state2.anio;
+          anio = _this$state2.anio,
+          alertType = _this$state2.alertType;
       var showFormMovie = this.state.showFormMovie;
       var formMovie = showFormMovie ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "newMovie"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, this.state.msgSaveMovie), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "alert alert-" + alertType + " alert-dismissible fade show",
+        role: "alert"
+      }, this.state.msgSaveMovie, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "close",
+        "data-dismiss": "alert",
+        "aria-label": "Close"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        "aria-hidden": "true"
+      }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
@@ -66403,6 +66419,14 @@ var UsersAdmin = /*#__PURE__*/function (_Component) {
           name = _this$state.name,
           nickname = _this$state.nickname,
           password = _this$state.password;
+      var expreg = /^(?=.*[0-9])(?=.*[A-Z])([a-zA-Z0-9]+)$/;
+
+      if (!expreg.test(password)) {
+        this.setState({
+          msgSaveUser: "La contraseña debe tener al menos un numero y una mayúscula"
+        });
+        return false;
+      }
 
       if (idUser <= 0) {
         var data = {
