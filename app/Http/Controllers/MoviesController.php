@@ -22,13 +22,16 @@ class MoviesController extends Controller
         $data = json_decode($r->getContent(), true);
 
         if(!empty($data['titulo'])){
-           
-        $movie = new Movies();
-        $movie->titulo = $data['titulo'];
-        $movie->sinopsis = $data['sinopsis'];
+            if(!empty($data['anio'])){
+                $movie = new Movies();
+                foreach ($data as $column => $value) {
+                    $movie->$column = $value;
+                }
 
-        return $movie->save() ? response()->json(['success' => "Pelicula creada con exito"]) : ['error' => "Error al crear la pelicula"];
-            
+                return $movie->save() ? response()->json(['success' => "Pelicula creada con exito"]) : ['error' => "Error al crear la pelicula"];
+            }else{
+                return response()->json(array('error' => "El año es obligatorio para la pelicula"));
+            }
         }else{
             return response()->json(array('error' => "El titulo es obligatorio para la pelicula"));
         }
@@ -50,12 +53,12 @@ class MoviesController extends Controller
 
 
    
-    public function update(Request $r, $id){
+    public function update(Request $r){
         $data=json_decode($r->getContent(), true);
         if(!empty($data['titulo'])){
            
-            $movie = Movies::find($id);
-
+            $movie = Movies::find($data['id']);
+            unset($data['id']);
             foreach ($data as $column => $value) {
                 $movie->$column = $value;
               }

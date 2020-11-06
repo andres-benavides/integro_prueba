@@ -21,6 +21,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post("movies/create", 'MoviesController@create');
 Route::get("movies/all", 'MoviesController@all');
 Route::get("movies/show/{id}", 'MoviesController@show');
-Route::post("movies/update/{id}", 'MoviesController@update');
+Route::post("movies/update", 'MoviesController@update');
 Route::delete("movies/delete/{id}", 'MoviesController@delete');
+
+//USUARIOS
+Route::post("users/create", 'UsersController@create');
+Route::get("users/all", 'UsersController@all');
+Route::get("users/show/{id}", 'UsersController@show');
+Route::post("users/update", 'UsersController@update');
+Route::delete("users/delete/{id}", 'UsersController@delete');
 
